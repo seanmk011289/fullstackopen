@@ -1,0 +1,39 @@
+sequenceDiagram 
+    participant browser
+    participant server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: the css file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+
+    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [Notes]
+    deactivate server
+
+    Note right of browser: The browser executes the callback function that renders the notes
+
+     ///////*  User adds new note, JS code appends to UI, saves to server  */////////
+
+    Note right of browser: The user types in a new note and clicks "Save"
+
+    browser: Note appended to notes list via JS in HTML markup
+    browser->>>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate server
+    new note added to "notes"
+    deactivate server
+
+     ///////*  New note added to UI, no redirect with server */////////
