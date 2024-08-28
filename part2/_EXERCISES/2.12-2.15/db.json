@@ -1,0 +1,111 @@
+{
+  "notes": [
+    {
+      "id": "1",
+      "content": "HTML is easy",
+      "important": false
+    },
+    {
+      "id": "2",
+      "content": "Browser can execute only JavaScript",
+      "important": false
+    },
+    {
+      "id": "3",
+      "content": "GET and POST are the most important methods of HTTP protocol",
+      "important": true
+    },
+    {
+      "content": "gay",
+      "important": false,
+      "id": "fGPUVL_"
+    },
+    {
+      "content": "stupid",
+      "important": false,
+      "id": "s1ZyK6X"
+    },
+    {
+      "content": "asdfasdf",
+      "important": false,
+      "id": "JQnVTKf"
+    },
+    {
+      "content": "ffffff",
+      "important": false,
+      "id": "rLmyakU"
+    },
+    {
+      "content": "ffffff",
+      "important": false,
+      "id": "RUw_T3V"
+    },
+    {
+      "content": "asdfasdf",
+      "important": false,
+      "id": "3a2gx22"
+    },
+    {
+      "content": "asdfasdf",
+      "important": true,
+      "id": "gTB3xiY"
+    },
+    {
+      "content": "ffffff",
+      "important": false,
+      "id": "4bIucoh"
+    },
+    {
+      "content": "fagafdafsd",
+      "important": true,
+      "id": "XYBQvoA"
+    },
+    {
+      "content": "you know what",
+      "important": true,
+      "id": "GY85uJP"
+    },
+    {
+      "content": "",
+      "important": true,
+      "id": "ljw-SEc"
+    },
+    {
+      "content": "",
+      "important": false,
+      "id": "AqCkllP"
+    },
+    {
+      "content": "this is a post method",
+      "important": true,
+      "id": "Yio46w_"
+    },
+    {
+      "content": "new post",
+      "important": false,
+      "id": "x8jMcq2"
+    },
+    {
+      "name": "asfdsaf",
+      "number": "888888",
+      "id": "E3uUr8T"
+    }
+  ],
+  "persons": [
+    {
+      "name": "Sean Kennedy",
+      "number": "78534209",
+      "id": "qs4aDaC"
+    },
+    {
+      "name": "Joseph Berry",
+      "number": "7853838804",
+      "id": "8CO1oKl"
+    },
+    {
+      "name": "John McCarthy",
+      "number": "7853890004",
+      "id": "QFHwNzj"
+    }
+  ]
+}
