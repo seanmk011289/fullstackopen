@@ -16,4 +16,13 @@ const removeNumber = (id) => {
   return remove.then((response) => response.data);
 };
 
-export { getNumbers, addNumber, removeNumber };
+const editNumber = (p, newNumber) => {
+  const url = `${baseUrl}/${p.id}`;
+  const changedPerson = { ...p, number: newNumber };
+  const put = axios.put(url, changedPerson);
+  return put.then((response) => response.data);
+  //   setNotes(notes.map((n) => (n.id === id ? response.data : n)));
+  // });
+};
+
+export { getNumbers, addNumber, removeNumber, editNumber };

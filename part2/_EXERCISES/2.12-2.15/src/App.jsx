@@ -8,19 +8,19 @@
 //   const [newNote, setNewNote] = useState("new note here...");
 //   const [showTrue, setShowTrue] = useState(false);
 
-//   const toggleImportanceOf = (id) => {
-//     const note = notes.find((n) => n.id === id);
-//     const changedNote = { ...note, important: !note.important };
-//     noteService
-//       .update(id, changedNote)
-//       .then((returnedNote) => {
-//         setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)));
-//       })
-//       .catch((err) => {
-//         alert(`The note ${note.content} was already deleted from the server`);
-//         setNotes(notes.filter((n) => n.id !== id));
-//       });
-//   };
+// const toggleImportanceOf = (id) => {
+//   const note = notes.find((n) => n.id === id);
+//   const changedNote = { ...note, important: !note.important };
+//   noteService
+//     .update(id, changedNote)
+//     .then((returnedNote) => {
+//       setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)));
+//     })
+//     .catch((err) => {
+//       alert(`The note ${note.content} was already deleted from the server`);
+//       setNotes(notes.filter((n) => n.id !== id));
+//     });
+// };
 
 //   useEffect(() => {
 //     noteService.getAll().then((initialNotes) => {
@@ -87,7 +87,12 @@ import Phoneform from "./components/Phoneform";
 import Filter from "./components/Filter";
 import axios from "axios";
 
-import { getNumbers, addNumber, removeNumber } from "./services/phonebook";
+import {
+  getNumbers,
+  addNumber,
+  removeNumber,
+  editNumber,
+} from "./services/phonebook";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -96,16 +101,19 @@ const App = () => {
   const [newFilter, setNewFilter] = useState("");
   const [filtered, setFiltered] = useState([]);
 
+  // Getting all the numbers from the database
   useEffect(() => {
     getNumbers().then((phonebook) => {
       setPersons(phonebook);
     });
   }, []);
 
+  // Handling new name information in the form
   const handleNewName = (e) => {
     setNewName(e.target.value);
   };
 
+  // Handling new number information
   const handleNewNumber = (e) => {
     setNewNumber(e.target.value);
   };
@@ -136,7 +144,20 @@ const App = () => {
       });
       // setPersons([...persons, { name: newName, number: newNumber }]);
     } else {
-      alert(`${newName} has already been added to the phonebook`);
+      if (
+        window.confirm(
+          `${newName} already has a number listed. Change their number?`
+        )
+      ) {
+        let p = persons.find((person) => person.name === newName);
+        editNumber(p, newNumber).then((newPerson) => {
+          setPersons(
+            persons.map((person) =>
+              person.id === newPerson.id ? newPerson : person
+            )
+          );
+        });
+      }
       setNewName("");
       setNewNumber("");
     }
