@@ -1,5 +1,8 @@
+// // NOTES CODE
+
 // import { useState, useEffect } from "react";
 // import Note from "./components/Note";
+// import Notification from "./components/Notification";
 // import noteService from "./services/notes";
 // console.log(noteService);
 
@@ -7,20 +10,26 @@
 //   const [notes, setNotes] = useState([]);
 //   const [newNote, setNewNote] = useState("new note here...");
 //   const [showTrue, setShowTrue] = useState(false);
+//   const [errorMessage, setErrorMessage] = useState(null);
 
-// const toggleImportanceOf = (id) => {
-//   const note = notes.find((n) => n.id === id);
-//   const changedNote = { ...note, important: !note.important };
-//   noteService
-//     .update(id, changedNote)
-//     .then((returnedNote) => {
-//       setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)));
-//     })
-//     .catch((err) => {
-//       alert(`The note ${note.content} was already deleted from the server`);
-//       setNotes(notes.filter((n) => n.id !== id));
-//     });
-// };
+//   const toggleImportanceOf = (id) => {
+//     const note = notes.find((n) => n.id === id);
+//     const changedNote = { ...note, important: !note.important };
+//     noteService
+//       .update(id, changedNote)
+//       .then((returnedNote) => {
+//         setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)));
+//       })
+//       .catch((err) => {
+//         setErrorMessage(
+//           `Note '${note.content}' was already removed from server`
+//         );
+//         setTimeout(() => {
+//           setErrorMessage(null);
+//         }, 5000);
+//         setNotes(notes.filter((n) => n.id !== id));
+//       });
+//   };
 
 //   useEffect(() => {
 //     noteService.getAll().then((initialNotes) => {
@@ -48,6 +57,7 @@
 //   return (
 //     <div>
 //       <h1>Notes</h1>
+//       <Notification message={errorMessage} />
 //       <ul>
 //         {showTrue
 //           ? notes
@@ -79,12 +89,14 @@
 
 // export default App;
 
-//// PHONEBOOK CODE
+// PHONEBOOK CODE
 
 import { useState, useEffect } from "react";
 import People from "./components/People";
 import Phoneform from "./components/Phoneform";
 import Filter from "./components/Filter";
+import Notification from "./components/Notification";
+import Error from "./components/Error";
 
 import {
   getNumbers,
@@ -99,6 +111,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [newFilter, setNewFilter] = useState("");
   const [filtered, setFiltered] = useState([]);
+  const [message, setMessage] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   // Getting all the numbers from the database
   useEffect(() => {
@@ -142,6 +156,8 @@ const App = () => {
         setNewNumber("");
       });
       // setPersons([...persons, { name: newName, number: newNumber }]);
+      setMessage(`${newName} has been added to the phonebook!`);
+      setTimeout(() => setMessage(null), 3000);
     } else {
       if (
         window.confirm(
@@ -149,13 +165,18 @@ const App = () => {
         )
       ) {
         let p = persons.find((person) => person.name === newName);
-        editNumber(p, newNumber).then((newPerson) => {
-          setPersons(
-            persons.map((person) =>
-              person.id === newPerson.id ? newPerson : person
-            )
-          );
-        });
+        editNumber(p, newNumber)
+          .then((newPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id === newPerson.id ? newPerson : person
+              )
+            );
+          })
+          .catch((err) => {
+            setErrorMsg(`${err}`);
+            setTimeout(() => setErrorMsg(null), 3000);
+          });
       }
       setNewName("");
       setNewNumber("");
@@ -176,6 +197,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message}></Notification>
+      <Error errorMsg={errorMsg}></Error>
       <Filter newFilter={newFilter} handleNewFilter={handleNewFilter}></Filter>
       <Phoneform
         addPerson={addPerson}
