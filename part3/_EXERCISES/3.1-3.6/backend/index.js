@@ -96,6 +96,9 @@ let numbers = [
     }
 ]
 
+let lowerCaseNames = numbers.map(number => number.name.toLowerCase().replace(/\s/g, ""));
+console.log(lowerCaseNames);
+
 app.get("/api/persons", (req, res) => {
     res.send(numbers);
 })
@@ -115,6 +118,24 @@ app.get("/info", (req, res) => {
         <br><br>
         ${new Date().toString()}`
     )
+})
+
+app.post("/api/persons", (req, res) => {
+    const newNum = {
+        id: String(Math.floor(Math.random() * 1000000000)),
+        name: req.body.name,
+        number: String(req.body.number)
+    }
+    let lowerCase = req.body.name.toLowerCase().replace(/\s/g, "");
+    if(req.body.name == "" || req.body.number == "") {
+        res.status(400).send(`error: {'Name and number must both be present to add.'}`).end();
+    }
+    else if(lowerCaseNames.includes(lowerCase)) {
+        res.status(400).send(`error: {'${req.body.name} already exists. The name must be unique.'}`).end();
+    } else {
+        numbers = numbers.concat(newNum);
+        res.status(200).send(numbers).end();
+    }
 })
 
 app.delete("/api/persons/:id", (req, res) => {
