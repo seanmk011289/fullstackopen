@@ -67,9 +67,36 @@
 // PHONEBOOK BACKEND
 
 const express = require("express");
+const morgan = require("morgan");
 const app = express();
 
-app.use(express.json())
+app.use(express.json());
+// app.use(morgan('tiny'));
+function postOnlyLogger(tokens, req, res) {
+      if (req.method === 'POST') {
+        // You can customize the log format here
+        return [
+          tokens.method(req, res),
+          tokens.url(req, res),
+          tokens.status(req, res),
+          tokens.res(req, res, 'content-length'), '-',
+          tokens['response-time'](req, res), 'ms',
+          JSON.stringify(req.body)
+        ].join(' ');
+      } else {
+        return [
+          tokens.method(req, res),
+          tokens.url(req, res),
+          tokens.status(req, res),
+          tokens.res(req, res, 'content-length'), '-',
+          tokens['response-time'](req, res), 'ms'
+        ].join(' ');
+      }
+      return null; // Don't log for other methods
+    }
+
+    // Use the custom format function with app.use(morgan)
+    app.use(morgan(postOnlyLogger));
 
 const PORT = 3001;
 
