@@ -124,11 +124,13 @@ const App = () => {
   // Handling new name information in the form
   const handleNewName = (e) => {
     setNewName(e.target.value);
+    console.log(newName)
   };
 
   // Handling new number information
   const handleNewNumber = (e) => {
     setNewNumber(e.target.value);
+    console.log(newNumber);
   };
 
   const handleNewFilter = (e) => {
