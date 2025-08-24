@@ -26,6 +26,7 @@ let persons = [
       id: "PROVYRZ"
     }
   ]
+
 const PORT = process.env.PORT || 3001
 
 app.get('/', (request, response) => {
@@ -47,15 +48,15 @@ app.get('/api/persons/:id', (request, response) => {
 })
 
 const generateId = () => {
-  const maxId = notes.length > 0
-    ? Math.max(...notes.map(n => Number(n.id)))
+  const maxId = persons.length > 0
+    ? Math.max(...persons.map(n => Number(n.id)))
     : 0
   return String(maxId + 1)
 }
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
-
+  console.log(body);
   if (!body.name || !body.number) {
     return response.status(400).json({ 
       error: 'Please add a name and number' 
@@ -69,8 +70,9 @@ app.post('/api/persons', (request, response) => {
   }
 
   persons = persons.concat(person)
-
-  response.json(person)
+  console.log(request.body);
+  console.log(persons);
+  response.json(person);
 })
 
 app.delete('/api/persons/:id', (request, response) => {
