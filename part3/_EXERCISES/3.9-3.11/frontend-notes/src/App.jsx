@@ -8,7 +8,7 @@ console.log(noteService);
 
 const App = () => {
   const [notes, setNotes] = useState([]);
-  const [newNote, setNewNote] = useState("new note here...");
+  const [newNote, setNewNote] = useState("");
   const [showTrue, setShowTrue] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -80,7 +80,7 @@ const App = () => {
             })}
       </ul>
       <form onSubmit={addNote}>
-        <input value={newNote} onChange={handleNewNote} />
+        <input placeholder="new note here..." value={newNote} onChange={handleNewNote} />
         <button type="submit">save</button>
       </form>
     </div>
