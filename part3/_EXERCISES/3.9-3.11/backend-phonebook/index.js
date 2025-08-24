@@ -1,4 +1,4 @@
-///////////// NOTES BACKEND
+///////////// PHONEBOOK BACKEND
 
 const express = require("express");
 const cors = require("cors");
@@ -8,25 +8,41 @@ app.use(cors())
 app.use(express.json());
 app.use(express.static('dist'));
 
-let notes = [  {    id: "1",    content: "HTML is easy",    important: true  },  {    id: "2",    content: "Browser can execute only JavaScript",    important: false  },  {    id: "3",    content: "GET and POST are the most important methods of HTTP protocol",    important: true  }]
-
+// let notes = [  {    id: "1",    content: "HTML is easy",    important: true  },  {    id: "2",    content: "Browser can execute only JavaScript",    important: false  },  {    id: "3",    content: "GET and POST are the most important methods of HTTP protocol",    important: true  }]
+let persons = [
+    {
+      name: "John McCarthy",
+      number: "7853838806",
+      id: "QFHwNzj"
+    },
+    {
+      name: "Sean Kennedy",
+      number: "7853838804",
+      id: "Gg-0L4j"
+    },
+    {
+      name: "Charlie Hooper",
+      number: "7853838809",
+      id: "PROVYRZ"
+    }
+  ]
 const PORT = process.env.PORT || 3001
 
 app.get('/', (request, response) => {
   response.send(`<h1>Hello World!</h1><h3>Ur A Bitch from Port Number ${PORT}</h3>`)
 })
 
-app.get('/api/notes', (request, response) => {
-  response.json(notes)
+app.get('/api/persons', (request, response) => {
+  response.json(persons)
 })
 
-app.get('/api/notes/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response) => {
   const id = request.params.id
-  const note = notes.find(note => note.id === id)
-  if (note) {
-    response.json(note)
+  const person = persons.find(p => p.id === id)
+  if (person) {
+    response.json(person)
 } else {
-    response.status(404).end()
+    response.status(404).end();
 }
 })
 
@@ -37,29 +53,29 @@ const generateId = () => {
   return String(maxId + 1)
 }
 
-app.post('/api/notes', (request, response) => {
+app.post('/api/persons', (request, response) => {
   const body = request.body
 
-  if (!body.content) {
+  if (!body.name || !body.number) {
     return response.status(400).json({ 
-      error: 'content missing' 
+      error: 'Please add a name and number' 
     })
   }
 
-  const note = {
-    content: body.content,
-    important: body.important || false,
+  const person = {
+    name: body.name,
+    number: body.number,
     id: generateId(),
   }
 
-  notes = notes.concat(note)
+  persons = persons.concat(person)
 
-  response.json(note)
+  response.json(person)
 })
 
-app.delete('/api/notes/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response) => {
   const id = request.params.id
-  notes = notes.filter(note => note.id !== id)
+  persons = persons.filter(p => p.id !== id)
   response.status(204).end()
 })
 
