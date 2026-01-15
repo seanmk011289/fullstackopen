@@ -20,7 +20,10 @@ const editNumber = (p, newNumber) => {
   const url = `${baseUrl}/${p.id}`;
   const changedPerson = { ...p, number: newNumber };
   const put = axios.put(url, changedPerson);
-  return put.then((response) => response.data);
+  return put.then((response) => {
+    console.log(response)
+    response.data
+  });
   //   setNotes(notes.map((n) => (n.id === id ? response.data : n)));
   // });
 };

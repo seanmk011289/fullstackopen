@@ -33,10 +33,11 @@ app.get('/api/notes/:id', (request, response, next) => {
       } else {
         response.status(404).end()
       }
+
     })
 
     .catch(error => {
-      console.log(error);
+      // console.log(error);
       // response.status(400).send({ error: 'malformatted id' })
       next(error);
     })

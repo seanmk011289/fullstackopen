@@ -65,10 +65,29 @@ app.post('/api/persons', (request, response) => {
   })
 });
 
+app.put('/api/persons/:id', (request, response, next) => {
+  const {name, number} = request.body;
+
+  Number.findById(request.params.id)
+    .then(num => {
+      if (!num) {
+        return response.status(404).end()
+      }
+      num.name = name;
+      num.number = number;
+
+      return num.save().then((updatedNumber) => {
+        response.json(updatedNumber)
+      })
+    })
+    .catch(error => next(error))
+})
+
 app.delete('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
   console.log(id);
 ;  Number.findByIdAndDelete(id).then(result => {
+    console.log(result)
     response.status(204).end();
   }).catch(err => next(err))
 })
