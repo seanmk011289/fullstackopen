@@ -65,10 +65,16 @@ const App = () => {
         setPersons([...persons, newNum]);
         setNewName("");
         setNewNumber("");
-      });
+        setMessage(`${newName} has been added to the phonebook!`);
+        setTimeout(() => setMessage(null), 3000);
+      }).catch(err => {
+        if (err.response.status == 400){
+          setErrorMsg(err.response.data.error)
+          setTimeout(() => setErrorMsg(null), 3000);
+        }
+        });
       // setPersons([...persons, { name: newName, number: newNumber }]);
-      setMessage(`${newName} has been added to the phonebook!`);
-      setTimeout(() => setMessage(null), 3000);
+      
     } else {
       if (
         window.confirm(
