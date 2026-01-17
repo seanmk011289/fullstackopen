@@ -16,7 +16,34 @@ const phonenumberSchema = new mongoose.Schema({
     minLength: 3,
     required: true
   },
-  number: String
+  number: {
+    type:String,
+    minLength:8,
+     validate: [
+      {
+        validator: function(v) {
+          // Check that the value is not empty
+          return v && v.trim().length > 0;
+        },
+        message: 'Phone number cannot be empty'
+      },
+      {
+        validator: function(v) {
+          // Check that it only contains digits, dashes, and periods
+          return /^[\d\.\-]+$/.test(v);
+        },
+        message: 'Phone number can only contain digits, dashes, and periods'
+      },
+      {
+        validator: function(v) {
+          // Strip all non-digit characters and verify exactly 10 digits
+          const digitsOnly = v.replace(/\D/g, '');
+          return digitsOnly.length === 10;
+        },
+        message: 'Phone number must contain exactly 10 digits'
+      }
+    ]
+  }
 })
 
 phonenumberSchema.set('toJSON', {
