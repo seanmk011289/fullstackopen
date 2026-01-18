@@ -1,14 +1,14 @@
-require('dotenv').config();
-const mongoose = require('mongoose');
+require('dotenv').config()
+const mongoose = require('mongoose')
 
 const url = process.env.MONGO_URL
 
 mongoose.set('strictQuery', false)
 mongoose.connect(url).then(() => {
-    console.log("connected to mongo!")
+  console.log('connected to mongo!')
 }).catch(err => {
-    console.log(err);
-});
+  console.log(err)
+})
 
 const phonenumberSchema = new mongoose.Schema({
   name: {
@@ -19,26 +19,26 @@ const phonenumberSchema = new mongoose.Schema({
   number: {
     type:String,
     minLength:8,
-     validate: [
+    validate: [
       {
         validator: function(v) {
           // Check that the value is not empty
-          return v && v.trim().length > 0;
+          return v && v.trim().length > 0
         },
         message: 'Phone number cannot be empty'
       },
       {
         validator: function(v) {
           // Check that it only contains digits, dashes, and periods
-          return /^[\d\.\-]+$/.test(v);
+          return /^[\d\.\-]+$/.test(v)
         },
         message: 'Phone number can only contain digits, dashes, and periods'
       },
       {
         validator: function(v) {
           // Strip all non-digit characters and verify exactly 10 digits
-          const digitsOnly = v.replace(/\D/g, '');
-          return digitsOnly.length === 10;
+          const digitsOnly = v.replace(/\D/g, '')
+          return digitsOnly.length === 10
         },
         message: 'Phone number must contain exactly 10 digits'
       }
@@ -54,7 +54,7 @@ phonenumberSchema.set('toJSON', {
   }
 })
 
-const Number = mongoose.model('Number', phonenumberSchema);
+const Number = mongoose.model('Number', phonenumberSchema)
 
 // if only password is given → list entries
 // if (process.argv.length < 4) {
@@ -82,4 +82,4 @@ const Number = mongoose.model('Number', phonenumberSchema);
 //   mongoose.connection.close();
 // }
 
-module.exports = Number;
+module.exports = Number
